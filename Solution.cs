@@ -11,7 +11,7 @@ public class Solution
     private static readonly char EMPTY_POINT = '.';
     private static readonly int PATH_NOT_FOUND = -1;
     private static readonly int[] POINT_NOT_FOUND = { -1, -1 };
-    private static readonly int[][] MOVES = { new int[]{ -1, 0 }, new int[]{ 1, 0 }, new int[]{ 0, -1 }, new int[]{ 0, 1 } };
+    private static readonly int[][] MOVES = { new int[]{-1, 0}, new int[]{1, 0}, new int[]{0, -1}, new int[]{0, 1} };
 
     private int rows;
     private int columns;
