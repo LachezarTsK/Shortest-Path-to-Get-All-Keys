@@ -10,6 +10,7 @@ class Solution {
         int row;
         int column;
         int bitStamp;
+        Step() = default;
         Step(int row, int column, int bitStamp) : row{row}, column{column}, bitStamp{bitStamp}{}
     };
 
