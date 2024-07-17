@@ -1,12 +1,11 @@
 
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Solution {
 
-    private record Step(int row, int column, int bitStamp) {
-
-    }
+    private record Step(int row, int column, int bitStamp) {}
 
     private static final char WALL = '#';
     private static final char START = '@';
@@ -66,7 +65,7 @@ public class Solution {
                     }
 
                     if (isKey(matrix[nextRow][nextColumn])) {
-                        int newBitStamp = currentStep.bitStamp | calculateBitSamp(matrix[nextRow][nextColumn]);
+                        int newBitStamp = currentStep.bitStamp | calculateBitStamp(matrix[nextRow][nextColumn]);
                         queue.add(new Step(nextRow, nextColumn, newBitStamp));
                     }
 
@@ -127,6 +126,6 @@ public class Solution {
     }
 
     private boolean hasKey(char letter, int currentBitStamp) {
-        return (currentBitStamp & calculateBitSamp(Character.toLowerCase(letter))) != 0;
+        return (currentBitStamp & calculateBitStamp(Character.toLowerCase(letter))) != 0;
     }
 }
