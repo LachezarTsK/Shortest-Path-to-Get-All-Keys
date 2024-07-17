@@ -1,4 +1,6 @@
 
+
+
 using System;
 using System.Collections.Generic;
 
@@ -38,18 +40,18 @@ public class Solution
         FillMatrix(matrix);
 
         int[] startPoint = FindStartPoint();
-        int bitSampAllKeys = CalculateBitSampAllKeys();
+        int bitStampAllKeys = CalculateBitStampAllKeys();
 
-        return SearchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys);
+        return SearchForShortestPathToGetAllKeys(startPoint, bitStampAllKeys);
     }
 
 
-    private int SearchForShortestPathToGetAllKeys(int[] startPoint, int bitSampAllKeys)
+    private int SearchForShortestPathToGetAllKeys(int[] startPoint, int bitStampAllKeys)
     {
         Queue<Step> queue = new Queue<Step>();
         queue.Enqueue(new Step(startPoint[0], startPoint[1], 0));
 
-        bool[,,] visitedByBitStamp = new bool[rows, columns, bitSampAllKeys + 1];
+        bool[,,] visitedByBitStamp = new bool[rows, columns, bitStampAllKeys + 1];
         visitedByBitStamp[startPoint[0], startPoint[1], 0] = true;
 
         matrix[startPoint[0], startPoint[1]] = EMPTY_POINT;
@@ -62,7 +64,7 @@ public class Solution
             while (stepsInCurrentLevel-- > 0)
             {
                 Step currentStep = queue.Dequeue();
-                if (currentStep.bitStamp == bitSampAllKeys)
+                if (currentStep.bitStamp == bitStampAllKeys)
                 {
                     return shortestPathToGetAllKeys;
                 }
@@ -88,7 +90,7 @@ public class Solution
 
                     if (IsKey(matrix[nextRow, nextColumn]))
                     {
-                        int newBitStamp = currentStep.bitStamp | CalculateBitSamp(matrix[nextRow, nextColumn]);
+                        int newBitStamp = currentStep.bitStamp | CalculateBitStamp(matrix[nextRow, nextColumn]);
                         queue.Enqueue(new Step(nextRow, nextColumn, newBitStamp));
                     }
                 }
@@ -128,23 +130,23 @@ public class Solution
         return POINT_NOT_FOUND;
     }
 
-    private int CalculateBitSampAllKeys()
+    private int CalculateBitStampAllKeys()
     {
-        int bitSampAllKeys = 0;
+        int bitStampAllKeys = 0;
         for (int r = 0; r < rows; ++r)
         {
             for (int c = 0; c < columns; ++c)
             {
                 if (IsKey(matrix[r, c]))
                 {
-                    bitSampAllKeys = bitSampAllKeys | CalculateBitSamp(matrix[r, c]);
+                    bitStampAllKeys = bitStampAllKeys | CalculateBitStamp(matrix[r, c]);
                 }
             }
         }
-        return bitSampAllKeys;
+        return bitStampAllKeys;
     }
 
-    private int CalculateBitSamp(char letter)
+    private int CalculateBitStamp(char letter)
     {
         return 1 << (letter - 'a');
     }
@@ -166,6 +168,6 @@ public class Solution
 
     private bool HasKey(char letter, int currentBitStamp)
     {
-        return (currentBitStamp & CalculateBitSamp(Char.ToLower(letter))) != 0;
+        return (currentBitStamp & CalculateBitStamp(Char.ToLower(letter))) != 0;
     }
 }
