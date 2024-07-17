@@ -1,23 +1,10 @@
 
-
-
 using System;
 using System.Collections.Generic;
 
 public class Solution
 {
-    private class Step
-    {
-        public int row;
-        public int column;
-        public int bitStamp;
-        public Step(int row, int column, int bitStamp)
-        {
-            this.row = row;
-            this.column = column;
-            this.bitStamp = bitStamp;
-        }
-    }
+    private record Step(int row, int column, int bitStamp) {}
 
     private static readonly char WALL = '#';
     private static readonly char START = '@';
