@@ -18,17 +18,17 @@ var shortestPathAllKeys = function (matrix) {
 
     fillMatrix(matrix);
     const startPoint = findStartPoint();
-    const bitSampAllKeys = calculateBitSampAllKeys();
+    const bitStampAllKeys = calculateBitStampAllKeys();
 
-    return searchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys);
+    return searchForShortestPathToGetAllKeys(startPoint, bitStampAllKeys);
 };
 
 /**
  * @param {number[]} startPoint
- * @param {number} bitSampAllKeys
+ * @param {number} bitStampAllKeys
  * @return {number} 
  */
-function searchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys) {
+function searchForShortestPathToGetAllKeys(startPoint, bitStampAllKeys) {
     //const {Queue} = require('@datastructures-js/queue');
     //Queue<Step>
     const queue = new Queue();
@@ -37,7 +37,7 @@ function searchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys) {
     const visitedByBitStamp = Array.from(new Array(this.rows), () => new Array(this.columns));
     for (let r = 0; r < this.rows; ++r) {
         for (let c = 0; c < this.columns; ++c) {
-            visitedByBitStamp[r][c] = new Array(bitSampAllKeys + 1).fill(false);
+            visitedByBitStamp[r][c] = new Array(bitStampAllKeys + 1).fill(false);
         }
     }
     visitedByBitStamp[startPoint[0]][startPoint[1]][0] = true;
@@ -50,7 +50,7 @@ function searchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys) {
 
         while (stepsInCurrentLevel-- > 0) {
             const currentStep = queue.dequeue();
-            if (currentStep.bitStamp === bitSampAllKeys) {
+            if (currentStep.bitStamp === bitStampAllKeys) {
                 return shortestPathToGetAllKeys;
             }
 
@@ -71,7 +71,7 @@ function searchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys) {
                 }
 
                 if (isKey(matrix[nextRow][nextColumn])) {
-                    const newBitStamp = currentStep.bitStamp | calculateBitSamp(matrix[nextRow][nextColumn]);
+                    const newBitStamp = currentStep.bitStamp | calculateBitStamp(matrix[nextRow][nextColumn]);
                     queue.enqueue(new Step(nextRow, nextColumn, newBitStamp));
                 }
 
@@ -123,23 +123,23 @@ function findStartPoint() {
 /**
  * @return {number} 
  */
-function calculateBitSampAllKeys() {
-    let bitSampAllKeys = 0;
+function calculateBitStampAllKeys() {
+    let bitStampAllKeys = 0;
     for (let r = 0; r < this.rows; ++r) {
         for (let c = 0; c < this.columns; ++c) {
             if (isKey(this.matrix[r][c])) {
-                bitSampAllKeys = bitSampAllKeys | calculateBitSamp(this.matrix[r][c]);
+                bitStampAllKeys = bitStampAllKeys | calculateBitStamp(this.matrix[r][c]);
             }
         }
     }
-    return bitSampAllKeys;
+    return bitStampAllKeys;
 }
 
 /**
  * @param {string} letter
  * @return {number} 
  */
-function calculateBitSamp(letter) {
+function calculateBitStamp(letter) {
     const ASCII_LETTER = letter.codePointAt(0);
     return 1 << (ASCII_LETTER - this.ASCII_LOWER_CASE_A);
 }
@@ -175,5 +175,5 @@ function isLock(letter) {
  * @return {boolean} 
  */
 function hasKey(letter, currentBitStamp) {
-    return (currentBitStamp & calculateBitSamp(letter.toLowerCase())) !== 0;
+    return (currentBitStamp & calculateBitStamp(letter.toLowerCase())) !== 0;
 }
