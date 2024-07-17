@@ -33,17 +33,17 @@ public:
         fillMatrix(matrix);
 
         coordinates startPoint = findStartPoint();
-        int bitSampAllKeys = calculateBitSampAllKeys();
+        int bitStampAllKeys = calculateBitStampAllKeys();
 
-        return searchForShortestPathToGetAllKeys(startPoint, bitSampAllKeys);
+        return searchForShortestPathToGetAllKeys(startPoint, bitStampAllKeys);
     }
 
 private:
-    int searchForShortestPathToGetAllKeys(coordinates startPoint, int bitSampAllKeys) {
+    int searchForShortestPathToGetAllKeys(coordinates startPoint, int bitStampAllKeys) {
         queue<Step> queue;
         queue.emplace(startPoint[0], startPoint[1], 0);
 
-        vector < vector < vector<bool>>> visitedByBitStamp(rows, vector < vector<bool>>(columns, vector<bool>(bitSampAllKeys + 1)));
+        vector < vector < vector<bool>>> visitedByBitStamp(rows, vector < vector<bool>>(columns, vector<bool>(bitStampAllKeys + 1)));
         visitedByBitStamp[startPoint[0]][startPoint[1]][0] = true;
 
         matrix[startPoint[0]][startPoint[1]] = EMPTY_POINT;
@@ -55,7 +55,7 @@ private:
             while (stepsInCurrentLevel-- > 0) {
                 Step currentStep = queue.front();
                 queue.pop();
-                if (currentStep.bitStamp == bitSampAllKeys) {
+                if (currentStep.bitStamp == bitStampAllKeys) {
                     return shortestPathToGetAllKeys;
                 }
 
@@ -76,7 +76,7 @@ private:
                     }
 
                     if (isKey(matrix[nextRow][nextColumn])) {
-                        int newBitStamp = currentStep.bitStamp | calculateBitSamp(matrix[nextRow][nextColumn]);
+                        int newBitStamp = currentStep.bitStamp | calculateBitStamp(matrix[nextRow][nextColumn]);
                         queue.emplace(nextRow, nextColumn, newBitStamp);
                     }
 
@@ -109,19 +109,19 @@ private:
         return POINT_NOT_FOUND;
     }
 
-    int calculateBitSampAllKeys() const {
-        int bitSampAllKeys = 0;
+    int calculateBitStampAllKeys() const {
+        int bitStampAllKeys = 0;
         for (size_t r = 0; r < rows; ++r) {
             for (size_t c = 0; c < columns; ++c) {
                 if (isKey(matrix[r][c])) {
-                    bitSampAllKeys = bitSampAllKeys | calculateBitSamp(matrix[r][c]);
+                    bitStampAllKeys = bitStampAllKeys | calculateBitStamp(matrix[r][c]);
                 }
             }
         }
-        return bitSampAllKeys;
+        return bitStampAllKeys;
     }
 
-    int calculateBitSamp(char letter) const {
+    int calculateBitStamp(char letter) const {
         return 1 << (letter - 'a');
     }
 
@@ -138,6 +138,6 @@ private:
     }
 
     bool hasKey(char letter, int currentBitStamp) const {
-        return (currentBitStamp & calculateBitSamp(tolower(letter))) != 0;
+        return (currentBitStamp & calculateBitStamp(tolower(letter))) != 0;
     }
 };
